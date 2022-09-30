@@ -1,0 +1,24 @@
+{
+  "name": "tutors_cli",
+  "version": "1.0.1",
+  "description": "cli for tutors",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.0.1",
+    "commander": "^9.4.0",
+    "conf": "^10.2.0",
+    "inquirer": "^9.1.2",
+    "mustache": "^4.2.0",
+    "tutors-html": "^2.5.3",
+    "tutors-json": "^2.5.2"
+  },
+  "bin": {
+    "tutors": "./index.js"
+  }
+}
