@@ -1,7 +1,0 @@
-{{#credits}}credits: {{credits}}{{/credits}}
-{{#slack}}slack: https://{{slack}}{{/slack}}
-{{#zoom}}zoom: https://{{zoom}}{{/zoom}}
-{{#moodle}}moodle: https://{{moodle}}{{/moodle}}
-{{#youtube}}youtube: https://{{youtube}}{{/youtube}}
-{{#teams}}teams: https://{{teams}}{{/teams}}
-

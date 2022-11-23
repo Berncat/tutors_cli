@@ -1,0 +1,7 @@
+credits: b
+ignorepin: 1234
+auth: 0
+slack: https://slack.ie
+hideVideos: false
+ignore:
+  - null

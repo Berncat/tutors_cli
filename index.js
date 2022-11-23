@@ -1,20 +1,16 @@
 #! /usr/bin/env node
 import { program } from "commander";
-import list from "./commands/list.js";
-import add from "./commands/add.js";
-import markDone from "./commands/markDone.js";
-import conf from "conf";
+import course from "./commands/course.js";
+import lab from "./commands/lab.js";
+import presentation from "./commands/presentation.js";
+import unit from "./commands/unit.js";
+import topic from "./commands/topic.js";
 
-new conf({projectName: "tutors_cli"});
-
-program.command("list").description("List all the TODO tasks").action(list);
-program.command("add").description("Add a new TODO task").action(add);
 program
-  .command("mark-done")
-  .description("Mark commands done")
-  .option(
-    "-t, --tasks <tasks...>",
-    "The tasks to mark done. If not specified, all tasks will be marked done."
-  )
-  .action(markDone);
+  .option("-c, --course", "create course", course)
+  .option("-l, --lab", "create lab", lab)
+  .option("-p, --presentation", "create lab", presentation)
+  .option("-t, --topic", "create topic", topic)
+  .option("-u, --unit", "create course", unit)
+
 program.parse();
