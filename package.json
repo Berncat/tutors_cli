@@ -1,6 +1,6 @@
 {
   "name": "tutors_cli",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "cli for tutors",
   "main": "index.js",
   "type": "module",
