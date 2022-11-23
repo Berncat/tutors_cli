@@ -3,6 +3,7 @@ import inquirer from "inquirer";
 import * as fs from "fs";
 import mustache from "mustache";
 import yaml from "js-yaml";
+import __dirname from "../index.js"
 
 let courseObj = {};
 let propertiesObj = {};
@@ -12,21 +13,21 @@ async function course() {
   console.log(chalk.greenBright("Create a course:"));
   await createCourseObj();
   await createPropertiesObj();
-  compileCourse();
+  await compileCourse();
   console.log(chalk.greenBright("Course created"));
 }
 
-function compileCourse() {
+async function compileCourse() {
   console.log(chalk.yellow("Creating files..."));
   const courseTemplate = fs
-    .readFileSync(`./templates/course/course.md`)
+    .readFileSync(`${__dirname}/templates/course/course.md`)
     .toString();
   const courseOutput = mustache.render(courseTemplate, courseObj);
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(`${dir}/course.md`, courseOutput);
   console.log(chalk.yellow("course.md created"));
   fs.copyFile(
-    `./templates/course/package.json`,
+    `${__dirname}/templates/course/package.json`,
     `${dir}/package.json`,
     (err) => {
       if (err) {
@@ -36,7 +37,7 @@ function compileCourse() {
       }
     }
   );
-  fs.copyFile(`./templates/course/course.png`, `${dir}/course.png`, (err) => {
+  fs.copyFile(`${__dirname}/templates/course/course.png`, `${dir}/course.png`, (err) => {
     if (err) {
       console.log("Error while creating course.png:", err);
     }

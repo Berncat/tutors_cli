@@ -5,10 +5,8 @@ import mustache from "mustache";
 
 var labObj = {};
 
-async function lab(response) {
-  labObj.title = response;
+async function lab() {
   console.log("lab");
-  console.log(labObj);
 }
 
 export default lab;

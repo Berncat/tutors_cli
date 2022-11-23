@@ -5,10 +5,8 @@ import mustache from "mustache";
 
 var presentationObj = {};
 
-async function presentation(response) {
-  presentationObj.title = response;
+async function presentation() {
   console.log("presentation");
-  console.log(presentationObj);
 }
 
 export default presentation;

@@ -5,10 +5,8 @@ import mustache from "mustache";
 
 var topicObj = {};
 
-async function topic(response) {
-  topicObj.title = response;
+async function topic() {
   console.log("topic");
-  console.log(topicObj);
 }
 
 export default topic;

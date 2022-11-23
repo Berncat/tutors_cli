@@ -5,10 +5,8 @@ import mustache from "mustache";
 
 var unitObj = {};
 
-async function unit(response) {
-  unitObj.title = response;
+async function unit() {
   console.log("unit");
-  console.log(unitObj);
 }
 
 export default unit;
