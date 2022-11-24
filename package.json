@@ -1,6 +1,6 @@
 {
   "name": "tutors_cli",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "cli for tutors",
   "main": "index.js",
   "type": "module",
@@ -15,9 +15,7 @@
     "conf": "^10.2.0",
     "inquirer": "^9.1.2",
     "js-yaml": "^4.1.0",
-    "mustache": "^4.2.0",
-    "tutors-html": "^2.5.3",
-    "tutors-json": "^2.5.2"
+    "mustache": "^4.2.0"
   },
   "bin": {
     "tutors": "./index.js"

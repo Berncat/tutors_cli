@@ -2,11 +2,28 @@ import chalk from "chalk";
 import inquirer from "inquirer";
 import * as fs from "fs";
 import mustache from "mustache";
+import checkFolder from "../utils/check_folder.js";
+import __dirname from "../index.js"
 
-var unitObj = {};
+let unitObj = {};
+let dir = "";
 
-async function unit() {
-  console.log("unit");
+async function unit(input) {
+  console.log(chalk.greenBright("Creating unit..."));
+  unitObj.title = input;
+  let number = await checkFolder("unit");
+  dir = "unit-0" + number.toString();
+  compileUnit();
+}
+
+function compileUnit() {
+  const unitTemplate = fs
+    .readFileSync(`${__dirname}/templates/unit/topic.md`)
+    .toString();
+  const unitOutput = mustache.render(unitTemplate, unitObj);
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(`${dir}/topic.md`, unitOutput);
+  console.log(chalk.yellow("unit created"));
 }
 
 export default unit;

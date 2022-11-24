@@ -21,7 +21,7 @@ program
   .option("-l, --lab", "create lab", lab)
   .option("-p, --presentation", "create lab", presentation)
   .option("-t, --topic", "create topic", topic)
-  .option("-u, --unit", "create course", unit);
+  .option("-u, --unit <title>", "create course", unit)
 
 program.parse();
 

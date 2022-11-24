@@ -13,11 +13,10 @@ async function course() {
   console.log(chalk.greenBright("Create a course:"));
   await createCourseObj();
   await createPropertiesObj();
-  await compileCourse();
-  console.log(chalk.greenBright("Course created"));
+  compileCourse();
 }
 
-async function compileCourse() {
+function compileCourse() {
   console.log(chalk.yellow("Creating files..."));
   const courseTemplate = fs
     .readFileSync(`${__dirname}/templates/course/course.md`)
@@ -60,7 +59,7 @@ async function createCourseObj() {
       default: "Course title",
       validate: (value) => {
         return new Promise((resolve, reject) => {
-          dir = `./${value}`;
+          dir = `${value}`;
           if (fs.existsSync(dir)) {
             reject(
               "Folder with this course name already exists in current location"
