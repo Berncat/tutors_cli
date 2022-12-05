@@ -3,7 +3,8 @@ import inquirer from "inquirer";
 import * as fs from "fs";
 import mustache from "mustache";
 import yaml from "js-yaml";
-import __dirname from "../index.js"
+import __dirname from "../index.js";
+import icon from "../utils/icon.js";
 
 let courseObj = {};
 let propertiesObj = {};
@@ -36,11 +37,15 @@ function compileCourse() {
       }
     }
   );
-  fs.copyFile(`${__dirname}/templates/course/course.png`, `${dir}/course.png`, (err) => {
-    if (err) {
-      console.log("Error while creating course.png:", err);
+  fs.copyFile(
+    `${__dirname}/templates/course/course.png`,
+    `${dir}/course.png`,
+    (err) => {
+      if (err) {
+        console.log("Error while creating course.png:", err);
+      }
     }
-  });
+  );
   createPropertiesYaml();
 }
 
@@ -80,15 +85,16 @@ async function createCourseObj() {
 }
 
 async function createPropertiesObj() {
-  await general();
-  await parent();
-  await auth();
-  await companions();
-  await icon();
-  other();
+  propertiesObj = await general();
+  propertiesObj = Object.assign(propertiesObj, await parent());
+  propertiesObj = Object.assign(propertiesObj, await auth());
+  propertiesObj = Object.assign(propertiesObj, await companions());
+  propertiesObj = Object.assign(propertiesObj, await icon());
+  propertiesObj = Object.assign(propertiesObj, other());
 }
 
 async function general() {
+  let response = {};
   const generalQuestions = [
     {
       name: "credits",
@@ -122,11 +128,13 @@ async function general() {
   ];
   await inquirer.prompt(generalQuestions).then((generalAnswers) => {
     generalAnswers.ignorepin = Number(generalAnswers.ignorepin);
-    propertiesObj = generalAnswers;
+    response = generalAnswers;
   });
+  return response;
 }
 
 async function parent() {
+  let response = {};
   const initialQuestion = [
     {
       name: "confirm",
@@ -156,15 +164,14 @@ async function parent() {
   ];
   await inquirer.prompt(initialQuestion).then(async (initialAnswer) => {
     if (initialAnswer.confirm == 1) {
-      propertiesObj = Object.assign(
-        propertiesObj,
-        await inquirer.prompt(parentQuestion)
-      );
+      response = await inquirer.prompt(parentQuestion);
     }
   });
+  return response;
 }
 
 async function auth() {
+  let response = {};
   const authQuestions = [
     {
       name: "auth",
@@ -176,13 +183,12 @@ async function auth() {
       ],
     },
   ];
-  propertiesObj = Object.assign(
-    propertiesObj,
-    await inquirer.prompt(authQuestions)
-  );
+  response = await inquirer.prompt(authQuestions)
+  return response
 }
 
 async function companions() {
+  let response = {};
   let companionQuestions = [
     {
       name: "companions",
@@ -209,77 +215,8 @@ async function companions() {
       });
     });
   });
-  propertiesObj = Object.assign(
-    propertiesObj,
-    await inquirer.prompt(companionQuestions)
-  );
-}
-
-async function icon() {
-  const iconQuestions = [
-    {
-      name: "icon",
-      type: "list",
-      message: "Use iconify or png for icon?",
-      choices: [
-        { name: "iconify", value: 1 },
-        { name: "png", value: 0 },
-      ],
-    },
-  ];
-  const iconifyQuestions = [
-    {
-      name: "type",
-      type: "input",
-      message: "iconify icon name?",
-      validate: (value) => {
-        return new Promise((resolve, reject) => {
-          if (!value) {
-            reject("Cannot be empty");
-          }
-          resolve(true);
-        });
-      },
-    },
-    {
-      name: "iconColor",
-      type: "list",
-      message: "If applciable would you like to set the colour of your icon?",
-      choices: [
-        { name: "Yes", value: 1 },
-        { name: "No", value: 0 },
-      ],
-    },
-  ];
-  const colorQuestions = [
-    {
-      name: "color",
-      type: "input",
-      message: "Input icon colour hex value (exclude #):",
-      default: "000000",
-    },
-  ];
-  await inquirer.prompt(iconQuestions).then(async (iconAnswer) => {
-    if (iconAnswer.icon == 1) {
-      let iconObj = {};
-      await inquirer.prompt(iconifyQuestions).then(async (iconifyAnswers) => {
-        iconObj.icon = {};
-        iconObj.icon.type = iconifyAnswers.type;
-        if (iconifyAnswers.iconColor == 1) {
-          await inquirer.prompt(colorQuestions).then(async (colorAnswers) => {
-            iconObj.icon.color = colorAnswers.color;
-          });
-        }
-      });
-      propertiesObj = Object.assign(propertiesObj, iconObj);
-    } else {
-      console.log(
-        chalk.red.bold(
-          "Update course.png file with your image (Do not change name from course.png)"
-        )
-      );
-    }
-  });
+  response = await inquirer.prompt(companionQuestions)
+  return response
 }
 
 function other() {
@@ -288,7 +225,7 @@ function other() {
     ignore: [null],
   };
 
-  propertiesObj = Object.assign(propertiesObj, otherObj);
+  return otherObj
 }
 
 export default course;

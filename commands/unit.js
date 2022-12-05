@@ -1,5 +1,4 @@
 import chalk from "chalk";
-import inquirer from "inquirer";
 import * as fs from "fs";
 import mustache from "mustache";
 import checkFolder from "../utils/check_folder.js";
@@ -12,7 +11,7 @@ async function unit(input) {
   console.log(chalk.greenBright("Creating unit..."));
   unitObj.title = input;
   let number = await checkFolder("unit");
-  dir = "unit-0" + number.toString();
+  dir = "unit-0" + number.toString() + `-${unitObj.title}`;
   compileUnit();
 }
 
